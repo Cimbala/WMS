@@ -1,12 +1,14 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
+
 /**
  * 登入登出记录DTO
  *
  * @author Ken
  * @since 2017/4/8.
  */
-public class AccessRecordDTO {
+public class AccessRecordDTO  implements Serializable {
 
     /**
      * 登入登出记录ID

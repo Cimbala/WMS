@@ -1,6 +1,7 @@
 package com.ken.wms.domain;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  *
  * @author Ken
  */
-public class StockInDO {
+public class StockInDO  implements Serializable {
 
     /**
      * 入库记录

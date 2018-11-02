@@ -1,5 +1,6 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  * @author Ken
  * @since 2017/4/9.
  */
-public class UserOperationRecordDO {
+public class UserOperationRecordDO  implements Serializable {
 
     /**
      * 记录ID

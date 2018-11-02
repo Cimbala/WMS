@@ -1,11 +1,13 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
+
 /**
  * 货物信息
  * @author Ken
  *
  */
-public class Goods {
+public class Goods  implements Serializable {
 
 	private Integer id;// 货物ID
 	private String name;// 货物名

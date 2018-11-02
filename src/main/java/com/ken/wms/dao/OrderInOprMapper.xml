@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ken.wms.dao.OrderInOprMapper" >
+
+    <resultMap id="resultMap" type="com.ken.wms.domain.vo.OrderInVo" >
+        <id column="ORDER_IN_ID" property="orderInId" jdbcType="INTEGER" />
+        <result column="ORDER_IN_SUPPLIERID" property="orderInSupplierid" jdbcType="INTEGER" />
+        <result column="ORDER_IN_GOODID" property="orderInGoodid" jdbcType="INTEGER" />
+        <result column="ORDER_IN_NUMBER" property="orderInNumber" jdbcType="INTEGER" />
+        <result column="ORDER_IN_TIME" property="orderInTime" jdbcType="TIMESTAMP" />
+        <result column="ORDER_IN_PERSION" property="orderInPersion" jdbcType="VARCHAR" />
+        <result column="SYSTEM_FLAG" property="systemFlag" jdbcType="INTEGER" />
+        <result column="REMARK0" property="remark0" jdbcType="VARCHAR" />
+        <result column="REMAKR1" property="remakr1" jdbcType="VARCHAR" />
+        <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+        <result column="GOOD_NAME" property="goodName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="unionSelect">
+        select
+          toi.*,
+          tg.GOOD_NAME,
+          ts.SUPPLIER_NAME
+        from wms_order_in as toi
+        left join wms_goods as tg
+          on tg.GOOD_ID=toi.ORDER_IN_GOODID
+        left join wms_supplier as ts
+          on ts.SUPPLIER_ID=toi.ORDER_IN_SUPPLIERID
+    </sql>
+
+    <select id="selectByAll"
+            parameterType="Integer"
+            resultMap="resultMap"
+            resultType="com.ken.wms.domain.vo.OrderInVo">
+        <include refid="unionSelect"/>
+        <if test="sysflag!=null">
+          where
+            toi.SYSTEM_FLAG=#{sysflag}
+        </if>
+    </select>
+
+    <select id="selectByIdName"
+            parameterType="com.ken.wms.domain.form.OrderInForm"
+            resultMap="resultMap"
+            resultType="com.ken.wms.domain.vo.OrderInVo">
+        <include refid="unionSelect"/>
+        <where>
+            <if test="oid!=null and oid != 0">
+                and toi.ORDER_IN_ID=#{oid}
+            </if>
+            <if test="sid!=null and sid != 0">
+                and toi.ORDER_IN_SUPPLIERID=#{sid}
+            </if>
+            <if test="gid!=null and gid != 0">
+                and toi.ORDER_IN_GOODID=#{gid}
+            </if>
+            <if test="name!=null and name!=''">
+                and toi.ORDER_IN_PERSION like #{name}
+            </if>
+            <if test="sysflag!=null">
+                and toi.SYSTEM_FLAG=#{sysflag}
+            </if>
+        </where>
+    </select>
+
+</mapper>

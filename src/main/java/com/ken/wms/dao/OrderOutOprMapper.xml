@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ken.wms.dao.OrderOutOprMapper" >
+
+    <resultMap id="resultMap" type="com.ken.wms.domain.vo.OrderOutVo" >
+        <id column="ORDER_OUT_ID" property="orderOutId" jdbcType="INTEGER" />
+        <result column="ORDER_OUT_CUSTOMERID" property="orderOutCustomerid" jdbcType="INTEGER" />
+        <result column="ORDER_OUT_GOODID" property="orderOutGoodid" jdbcType="INTEGER" />
+        <result column="ORDER_OUT_NUMBER" property="orderOutNumber" jdbcType="INTEGER" />
+        <result column="ORDER_OUT_TIME" property="orderOutTime" jdbcType="TIMESTAMP" />
+        <result column="ORDER_OUT_PERSION" property="orderOutPersion" jdbcType="VARCHAR" />
+        <result column="SYSTEM_FLAG" property="systemFlag" jdbcType="INTEGER" />
+        <result column="REMARK0" property="remark0" jdbcType="VARCHAR" />
+        <result column="REMAKR1" property="remakr1" jdbcType="VARCHAR" />
+        <result column="CUSTOMER_NAME" property="customerName" jdbcType="VARCHAR" />
+        <result column="GOOD_NAME" property="goodName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="unionSelect">
+        select
+          too.*,
+          tg.GOOD_NAME,
+          tc.CUSTOMER_NAME
+        from wms_order_out as too
+        left join wms_goods as tg
+          on tg.GOOD_ID=too.ORDER_OUT_GOODID
+        left join wms_customer as tc
+          on tc.CUSTOMER_ID=too.ORDER_OUT_CUSTOMERID
+    </sql>
+
+    <select id="selectByAll"
+            parameterType="Integer"
+            resultMap="resultMap"
+            resultType="com.ken.wms.domain.vo.OrderOutVo">
+        <include refid="unionSelect"/>
+        <if test="systemFlag!=null">
+          where
+            too.SYSTEM_FLAG=#{systemFlag}
+        </if>
+    </select>
+
+    <select id="selectByIdName"
+            parameterType="com.ken.wms.domain.form.OrderOutForm"
+            resultMap="resultMap"
+            resultType="com.ken.wms.domain.vo.OrderOutVo">
+        <include refid="unionSelect"/>
+        <where>
+            <if test="orderOutId!=null and orderOutId != 0">
+                and too.ORDER_OUT_ID=#{orderOutId}
+            </if>
+            <if test="orderOutCustomerid!=null and orderOutCustomerid != 0">
+                and too.ORDER_OUT_CUSTOMERID=#{orderOutCustomerid}
+            </if>
+            <if test="orderOutGoodid!=null and orderOutGoodid != 0">
+                and too.ORDER_OUT_GOODID=#{gid}
+            </if>
+            <if test="orderOutPersion!=null and orderOutPersion!=''">
+                and too.ORDER_OUT_PERSION like #{orderOutPersion}
+            </if>
+            <if test="systemFlag!=null">
+                and too.SYSTEM_FLAG=#{systemFlag}
+            </if>
+        </where>
+    </select>
+
+</mapper>

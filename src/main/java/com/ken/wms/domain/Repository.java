@@ -1,11 +1,13 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
+
 /**
  * 仓库信息
  * @author Ken
  *
  */
-public class Repository {
+public class Repository  implements Serializable {
 
 	private Integer id;// 仓库ID
 	private String address;// 仓库地址

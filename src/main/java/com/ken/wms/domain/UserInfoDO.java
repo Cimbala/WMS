@@ -1,11 +1,13 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
+
 /**
  * 用户账户信息(数据传输对象)
  * @author ken
  * @since 2017/2/26.
  */
-public class UserInfoDO {
+public class UserInfoDO  implements Serializable {
 
     /**
      * 用户ID

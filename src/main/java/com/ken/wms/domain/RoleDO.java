@@ -1,11 +1,13 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
+
 /**
  * 系统使用的角色信息
  * @author Ken
  *
  */
-public class RoleDO {
+public class RoleDO  implements Serializable {
 
 	private Integer id;// 角色ID
 	private String roleName;// 角色名

@@ -1,11 +1,13 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
+
 /**
  * 系统的使用用户
  * @author Ken
  *
  */
-public class User {
+public class User  implements Serializable {
 
 	private Integer id;// 用户ID
 	private String userName;// 用户名

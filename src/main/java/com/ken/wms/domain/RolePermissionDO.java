@@ -1,12 +1,14 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
+
 /**
  * URL 的角色角色权限信息
  *
  * @author ken
  * @since 2017/2/26
  */
-public class RolePermissionDO {
+public class RolePermissionDO  implements Serializable {
 
     /**
      * URL 的角色角色权限信息名称

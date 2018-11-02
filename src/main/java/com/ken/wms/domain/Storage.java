@@ -1,12 +1,14 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
+
 /**
  * 仓库库存
  * 
  * @author Ken
  *
  */
-public class Storage {
+public class Storage  implements Serializable {
 
 	private Integer goodsID;// 货物ID
 	private String goodsName;// 货物名称

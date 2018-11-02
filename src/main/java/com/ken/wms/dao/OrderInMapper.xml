@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ken.wms.dao.OrderInMapper" >
+  <resultMap id="BaseResultMap" type="com.ken.wms.domain.OrderIn" >
+    <id column="ORDER_IN_ID" property="orderInId" jdbcType="INTEGER" />
+    <result column="ORDER_IN_SUPPLIERID" property="orderInSupplierid" jdbcType="INTEGER" />
+    <result column="ORDER_IN_GOODID" property="orderInGoodid" jdbcType="INTEGER" />
+    <result column="ORDER_IN_NUMBER" property="orderInNumber" jdbcType="INTEGER" />
+    <result column="ORDER_IN_TIME" property="orderInTime" jdbcType="TIMESTAMP" />
+    <result column="ORDER_IN_PERSION" property="orderInPersion" jdbcType="VARCHAR" />
+    <result column="SYSTEM_FLAG" property="systemFlag" jdbcType="INTEGER" />
+    <result column="REMARK0" property="remark0" jdbcType="VARCHAR" />
+    <result column="REMAKR1" property="remakr1" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ORDER_IN_ID, ORDER_IN_SUPPLIERID, ORDER_IN_GOODID, ORDER_IN_NUMBER, ORDER_IN_TIME, 
+    ORDER_IN_PERSION, SYSTEM_FLAG, REMARK0, REMAKR1
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ken.wms.domain.OrderInExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wms_order_in
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_order_in
+    where ORDER_IN_ID = #{orderInId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from wms_order_in
+    where ORDER_IN_ID = #{orderInId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ken.wms.domain.OrderInExample" >
+    delete from wms_order_in
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ken.wms.domain.OrderIn" >
+    insert into wms_order_in (ORDER_IN_ID, ORDER_IN_SUPPLIERID, ORDER_IN_GOODID, 
+      ORDER_IN_NUMBER, ORDER_IN_TIME, ORDER_IN_PERSION, 
+      SYSTEM_FLAG, REMARK0, REMAKR1
+      )
+    values (#{orderInId,jdbcType=INTEGER}, #{orderInSupplierid,jdbcType=INTEGER}, #{orderInGoodid,jdbcType=INTEGER}, 
+      #{orderInNumber,jdbcType=INTEGER}, #{orderInTime,jdbcType=TIMESTAMP}, #{orderInPersion,jdbcType=VARCHAR}, 
+      #{systemFlag,jdbcType=INTEGER}, #{remark0,jdbcType=VARCHAR}, #{remakr1,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ken.wms.domain.OrderIn" >
+    insert into wms_order_in
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderInId != null" >
+        ORDER_IN_ID,
+      </if>
+      <if test="orderInSupplierid != null" >
+        ORDER_IN_SUPPLIERID,
+      </if>
+      <if test="orderInGoodid != null" >
+        ORDER_IN_GOODID,
+      </if>
+      <if test="orderInNumber != null" >
+        ORDER_IN_NUMBER,
+      </if>
+      <if test="orderInTime != null" >
+        ORDER_IN_TIME,
+      </if>
+      <if test="orderInPersion != null" >
+        ORDER_IN_PERSION,
+      </if>
+      <if test="systemFlag != null" >
+        SYSTEM_FLAG,
+      </if>
+      <if test="remark0 != null" >
+        REMARK0,
+      </if>
+      <if test="remakr1 != null" >
+        REMAKR1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderInId != null" >
+        #{orderInId,jdbcType=INTEGER},
+      </if>
+      <if test="orderInSupplierid != null" >
+        #{orderInSupplierid,jdbcType=INTEGER},
+      </if>
+      <if test="orderInGoodid != null" >
+        #{orderInGoodid,jdbcType=INTEGER},
+      </if>
+      <if test="orderInNumber != null" >
+        #{orderInNumber,jdbcType=INTEGER},
+      </if>
+      <if test="orderInTime != null" >
+        #{orderInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderInPersion != null" >
+        #{orderInPersion,jdbcType=VARCHAR},
+      </if>
+      <if test="systemFlag != null" >
+        #{systemFlag,jdbcType=INTEGER},
+      </if>
+      <if test="remark0 != null" >
+        #{remark0,jdbcType=VARCHAR},
+      </if>
+      <if test="remakr1 != null" >
+        #{remakr1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ken.wms.domain.OrderInExample" resultType="java.lang.Integer" >
+    select count(*) from wms_order_in
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update wms_order_in
+    <set >
+      <if test="record.orderInId != null" >
+        ORDER_IN_ID = #{record.orderInId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderInSupplierid != null" >
+        ORDER_IN_SUPPLIERID = #{record.orderInSupplierid,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderInGoodid != null" >
+        ORDER_IN_GOODID = #{record.orderInGoodid,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderInNumber != null" >
+        ORDER_IN_NUMBER = #{record.orderInNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderInTime != null" >
+        ORDER_IN_TIME = #{record.orderInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderInPersion != null" >
+        ORDER_IN_PERSION = #{record.orderInPersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.systemFlag != null" >
+        SYSTEM_FLAG = #{record.systemFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark0 != null" >
+        REMARK0 = #{record.remark0,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remakr1 != null" >
+        REMAKR1 = #{record.remakr1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update wms_order_in
+    set ORDER_IN_ID = #{record.orderInId,jdbcType=INTEGER},
+      ORDER_IN_SUPPLIERID = #{record.orderInSupplierid,jdbcType=INTEGER},
+      ORDER_IN_GOODID = #{record.orderInGoodid,jdbcType=INTEGER},
+      ORDER_IN_NUMBER = #{record.orderInNumber,jdbcType=INTEGER},
+      ORDER_IN_TIME = #{record.orderInTime,jdbcType=TIMESTAMP},
+      ORDER_IN_PERSION = #{record.orderInPersion,jdbcType=VARCHAR},
+      SYSTEM_FLAG = #{record.systemFlag,jdbcType=INTEGER},
+      REMARK0 = #{record.remark0,jdbcType=VARCHAR},
+      REMAKR1 = #{record.remakr1,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ken.wms.domain.OrderIn" >
+    update wms_order_in
+    <set >
+      <if test="orderInSupplierid != null" >
+        ORDER_IN_SUPPLIERID = #{orderInSupplierid,jdbcType=INTEGER},
+      </if>
+      <if test="orderInGoodid != null" >
+        ORDER_IN_GOODID = #{orderInGoodid,jdbcType=INTEGER},
+      </if>
+      <if test="orderInNumber != null" >
+        ORDER_IN_NUMBER = #{orderInNumber,jdbcType=INTEGER},
+      </if>
+      <if test="orderInTime != null" >
+        ORDER_IN_TIME = #{orderInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderInPersion != null" >
+        ORDER_IN_PERSION = #{orderInPersion,jdbcType=VARCHAR},
+      </if>
+      <if test="systemFlag != null" >
+        SYSTEM_FLAG = #{systemFlag,jdbcType=INTEGER},
+      </if>
+      <if test="remark0 != null" >
+        REMARK0 = #{remark0,jdbcType=VARCHAR},
+      </if>
+      <if test="remakr1 != null" >
+        REMAKR1 = #{remakr1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORDER_IN_ID = #{orderInId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ken.wms.domain.OrderIn" >
+    update wms_order_in
+    set ORDER_IN_SUPPLIERID = #{orderInSupplierid,jdbcType=INTEGER},
+      ORDER_IN_GOODID = #{orderInGoodid,jdbcType=INTEGER},
+      ORDER_IN_NUMBER = #{orderInNumber,jdbcType=INTEGER},
+      ORDER_IN_TIME = #{orderInTime,jdbcType=TIMESTAMP},
+      ORDER_IN_PERSION = #{orderInPersion,jdbcType=VARCHAR},
+      SYSTEM_FLAG = #{systemFlag,jdbcType=INTEGER},
+      REMARK0 = #{remark0,jdbcType=VARCHAR},
+      REMAKR1 = #{remakr1,jdbcType=VARCHAR}
+    where ORDER_IN_ID = #{orderInId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,5 +1,6 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  * @author Ken
  * @since 2017/3/5.
  */
-public class AccessRecordDO {
+public class AccessRecordDO implements Serializable {
 
     /**
      * 登入登出记录ID

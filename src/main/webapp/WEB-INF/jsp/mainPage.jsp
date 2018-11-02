@@ -5,7 +5,7 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>仓库管理系统</title>
+    <title>销售管理系统</title>
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css"
@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
         <div class="container-fluid">
             <!-- 导航栏标题 -->
             <div class="navbar-header">
-                <a href="javascript:void(0)" class="navbar-brand home">仓库管理系统</a>
+                <a href="javascript:void(0)" class="navbar-brand home">销售管理系统</a>
             </div>
 
             <!-- 导航栏下拉菜单；用户信息与注销登陆 -->
@@ -140,6 +140,45 @@ pageEncoding="UTF-8"%>
                         </div>
                     </div>
                 </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#collapse6" data-toggle="collapse" data-parent="#accordion"
+                               class="parentMenuTitle collapseHead">订单管理</a>
+                            <div class="pull-right">
+                                <span class="caret"></span>
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="collapse6" class="panel-collapse collapse collapseBody">
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <shiro:hasRole name="commonsAdmin">
+                                    <li class="list-group-item">
+                                        <a href="javascript:void(0)" id="" class="menu_item"
+                                           name="pagecomponent/OrderInManagement.jsp">进货单管理</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="javascript:void(0)" id=""
+                                           class="menu_item"
+                                           name="pagecomponent/OrderOutManagement.jsp.jsp">客户订单管理</a>
+                                    </li>
+                                </shiro:hasRole>
+                                <shiro:hasRole name="systemAdmin">
+                                    <li class="list-group-item">
+                                        <a href="javascript:void(0)" id="" class="menu_item"
+                                           name="pagecomponent/OrderInManagement.jsp">进货单管理</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="javascript:void(0)" id=""
+                                           class="menu_item"
+                                           name="pagecomponent/OrderOutManagement.jsp">客户订单管理</a>
+                                    </li>
+                                </shiro:hasRole>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 <shiro:hasRole name="systemAdmin">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -156,11 +195,21 @@ pageEncoding="UTF-8"%>
                                 <ul class="list-group">
                                     <li class="list-group-item">
                                         <a href="javascript:void(0)" id="" class="menu_item"
-                                           name="pagecomponent/repositoryAdminManagement.jsp">仓库管理员管理</a>
+                                           name="pagecomponent/personManagement.jsp">各部门人员信息管理</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
+                        <%--<div id="collapse3" class="panel-collapse collapse collapseBody">--%>
+                            <%--<div class="panel-body">--%>
+                                <%--<ul class="list-group">--%>
+                                    <%--<li class="list-group-item">--%>
+                                        <%--<a href="javascript:void(0)" id="" class="menu_item"--%>
+                                           <%--name="pagecomponent/repositoryAdminManagement.jsp">仓库管理员管理</a>--%>
+                                    <%--</li>--%>
+                                <%--</ul>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
                     </div>
                 </shiro:hasRole>
                 <shiro:hasRole name="systemAdmin">
@@ -220,7 +269,7 @@ pageEncoding="UTF-8"%>
                                     </li>
                                     <li class="list-group-item">
                                         <a href="javascript:void(0)" id=""
-                                           class="menu_item" name="pagecomponent/accessRecordManagement.jsp">登陆日志</a>
+                                           class="menu_item" name="pagecomponent/accessRecordManagement.jsp">登录日志</a>
                                     </li>
                                 </shiro:hasRole>
                             </ul>

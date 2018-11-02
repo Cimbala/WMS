@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ken.wms.dao.SaleRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.ken.wms.domain.SaleRecord" >
+    <id column="SALE_ID" property="saleId" jdbcType="INTEGER" />
+    <id column="GOOD_ID" property="goodId" jdbcType="INTEGER" />
+    <result column="SALE_NUM" property="saleNum" jdbcType="INTEGER" />
+    <result column="PRICE" property="price" jdbcType="INTEGER" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="SALE_AMOUNT" property="saleAmount" jdbcType="INTEGER" />
+    <result column="SALE_DATE" property="saleDate" jdbcType="TIMESTAMP" />
+    <result column="REMARK0" property="remark0" jdbcType="VARCHAR" />
+    <result column="REMARK1" property="remark1" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    SALE_ID, GOOD_ID, SALE_NUM, PRICE, UNIT, SALE_AMOUNT, SALE_DATE, REMARK0, REMARK1
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ken.wms.domain.SaleRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wms_record_sale
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.ken.wms.domain.SaleRecordKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_record_sale
+    where SALE_ID = #{saleId,jdbcType=INTEGER}
+      and GOOD_ID = #{goodId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ken.wms.domain.SaleRecordKey" >
+    delete from wms_record_sale
+    where SALE_ID = #{saleId,jdbcType=INTEGER}
+      and GOOD_ID = #{goodId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ken.wms.domain.SaleRecordExample" >
+    delete from wms_record_sale
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ken.wms.domain.SaleRecord" >
+    insert into wms_record_sale (SALE_ID, GOOD_ID, SALE_NUM, 
+      PRICE, UNIT, SALE_AMOUNT, 
+      SALE_DATE, REMARK0, REMARK1
+      )
+    values (#{saleId,jdbcType=INTEGER}, #{goodId,jdbcType=INTEGER}, #{saleNum,jdbcType=INTEGER}, 
+      #{price,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, #{saleAmount,jdbcType=INTEGER}, 
+      #{saleDate,jdbcType=TIMESTAMP}, #{remark0,jdbcType=VARCHAR}, #{remark1,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ken.wms.domain.SaleRecord" >
+    insert into wms_record_sale
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="saleId != null" >
+        SALE_ID,
+      </if>
+      <if test="goodId != null" >
+        GOOD_ID,
+      </if>
+      <if test="saleNum != null" >
+        SALE_NUM,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="unit != null" >
+        UNIT,
+      </if>
+      <if test="saleAmount != null" >
+        SALE_AMOUNT,
+      </if>
+      <if test="saleDate != null" >
+        SALE_DATE,
+      </if>
+      <if test="remark0 != null" >
+        REMARK0,
+      </if>
+      <if test="remark1 != null" >
+        REMARK1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="saleId != null" >
+        #{saleId,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null" >
+        #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="saleNum != null" >
+        #{saleNum,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="saleAmount != null" >
+        #{saleAmount,jdbcType=INTEGER},
+      </if>
+      <if test="saleDate != null" >
+        #{saleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark0 != null" >
+        #{remark0,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null" >
+        #{remark1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ken.wms.domain.SaleRecordExample" resultType="java.lang.Integer" >
+    select count(*) from wms_record_sale
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update wms_record_sale
+    <set >
+      <if test="record.saleId != null" >
+        SALE_ID = #{record.saleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodId != null" >
+        GOOD_ID = #{record.goodId,jdbcType=INTEGER},
+      </if>
+      <if test="record.saleNum != null" >
+        SALE_NUM = #{record.saleNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null" >
+        PRICE = #{record.price,jdbcType=INTEGER},
+      </if>
+      <if test="record.unit != null" >
+        UNIT = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.saleAmount != null" >
+        SALE_AMOUNT = #{record.saleAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.saleDate != null" >
+        SALE_DATE = #{record.saleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark0 != null" >
+        REMARK0 = #{record.remark0,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark1 != null" >
+        REMARK1 = #{record.remark1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update wms_record_sale
+    set SALE_ID = #{record.saleId,jdbcType=INTEGER},
+      GOOD_ID = #{record.goodId,jdbcType=INTEGER},
+      SALE_NUM = #{record.saleNum,jdbcType=INTEGER},
+      PRICE = #{record.price,jdbcType=INTEGER},
+      UNIT = #{record.unit,jdbcType=VARCHAR},
+      SALE_AMOUNT = #{record.saleAmount,jdbcType=INTEGER},
+      SALE_DATE = #{record.saleDate,jdbcType=TIMESTAMP},
+      REMARK0 = #{record.remark0,jdbcType=VARCHAR},
+      REMARK1 = #{record.remark1,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ken.wms.domain.SaleRecord" >
+    update wms_record_sale
+    <set >
+      <if test="saleNum != null" >
+        SALE_NUM = #{saleNum,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null" >
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="saleAmount != null" >
+        SALE_AMOUNT = #{saleAmount,jdbcType=INTEGER},
+      </if>
+      <if test="saleDate != null" >
+        SALE_DATE = #{saleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark0 != null" >
+        REMARK0 = #{remark0,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null" >
+        REMARK1 = #{remark1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SALE_ID = #{saleId,jdbcType=INTEGER}
+      and GOOD_ID = #{goodId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ken.wms.domain.SaleRecord" >
+    update wms_record_sale
+    set SALE_NUM = #{saleNum,jdbcType=INTEGER},
+      PRICE = #{price,jdbcType=INTEGER},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      SALE_AMOUNT = #{saleAmount,jdbcType=INTEGER},
+      SALE_DATE = #{saleDate,jdbcType=TIMESTAMP},
+      REMARK0 = #{remark0,jdbcType=VARCHAR},
+      REMARK1 = #{remark1,jdbcType=VARCHAR}
+    where SALE_ID = #{saleId,jdbcType=INTEGER}
+      and GOOD_ID = #{goodId,jdbcType=INTEGER}
+  </update>
+</mapper>

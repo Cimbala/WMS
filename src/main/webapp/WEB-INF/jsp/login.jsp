@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>登陆</title>
+<title>登录</title>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
@@ -67,7 +67,7 @@
 								<div class="col-md-4 col-sm-4"></div>
 								<div class="col-md-4 col-sm-4">
 									<button id="submit" type="submit" class="btn btn-primary">
-										&nbsp;&nbsp;&nbsp;&nbsp;登陆&nbsp;&nbsp;&nbsp;&nbsp;</button>
+										&nbsp;&nbsp;&nbsp;&nbsp;登录&nbsp;&nbsp;&nbsp;&nbsp;</button>
 								</div>
 								<div class="col-md-4 col-sm-4"></div>
 							</div>
@@ -107,7 +107,9 @@
 		function infoEncrypt(userID, password, checkCode) {
 			var str1 = $.md5(password);
 			var str2 = $.md5(str1 + userID);
+            console.log(str2 );
 			var str3 = $.md5(str2 + checkCode.toUpperCase());
+            console.log(str3 );
 			return str3;
 		}
 
@@ -205,7 +207,7 @@
 							$('#checkCode').val("");
 						}else{
 							// 页面跳转
-							window.location.href = "/WMS";
+							window.location.href = "/wms/main";
 						}
 					},
 					error:function(data){

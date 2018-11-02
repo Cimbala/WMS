@@ -1,12 +1,14 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
+
 /**
  * 供应商信息
  * 
  * @author Ken
  *
  */
-public class Supplier {
+public class Supplier  implements Serializable {
 
 	private Integer id;// 供应商ID
 	private String name;// 供应商名

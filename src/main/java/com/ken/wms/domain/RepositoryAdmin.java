@@ -1,5 +1,6 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.sql.Date;
  * @author Ken
  *
  */
-public class RepositoryAdmin {
+public class RepositoryAdmin  implements Serializable {
 
 	private Integer id;// 仓库管理员ID
 	private String name;// 姓名

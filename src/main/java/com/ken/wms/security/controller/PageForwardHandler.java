@@ -35,7 +35,7 @@ public class PageForwardHandler {
      *
      * @return 跳转的 jsp
      */
-    @RequestMapping("")
+    @RequestMapping("main")
     public String showLoginView() {
         return "mainPage";
     }

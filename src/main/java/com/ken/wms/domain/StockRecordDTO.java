@@ -1,12 +1,14 @@
 package com.ken.wms.domain;
 
+import java.io.Serializable;
+
 /**
  * 出库/入库记录DO
  *
  * @author Ken
  * @since 2017/4/5.
  */
-public class StockRecordDTO {
+public class StockRecordDTO  implements Serializable {
 
     /**
      * 记录ID

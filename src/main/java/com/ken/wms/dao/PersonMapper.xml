@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ken.wms.dao.PersonMapper" >
+  <resultMap id="BaseResultMap" type="com.ken.wms.domain.Person" >
+    <id column="PERSON_ID" property="personId" jdbcType="INTEGER" />
+    <result column="PERSON_NAME" property="personName" jdbcType="VARCHAR" />
+    <result column="PERSON_GENDER" property="personGender" jdbcType="VARCHAR" />
+    <result column="PERSON_JOB" property="personJob" jdbcType="VARCHAR" />
+    <result column="PERSON_TEL" property="personTel" jdbcType="VARCHAR" />
+    <result column="PERSON_ADDRESS" property="personAddress" jdbcType="VARCHAR" />
+    <result column="SYSTEM_FLAG" property="systemFlag" jdbcType="INTEGER" />
+    <result column="REMARK0" property="remark0" jdbcType="VARCHAR" />
+    <result column="REMARK1" property="remark1" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PERSON_ID, PERSON_NAME, PERSON_GENDER, PERSON_JOB, PERSON_TEL, PERSON_ADDRESS, SYSTEM_FLAG, 
+    REMARK0, REMARK1
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ken.wms.domain.PersonExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wms_person
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_person
+    where PERSON_ID = #{personId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from wms_person
+    where PERSON_ID = #{personId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ken.wms.domain.PersonExample" >
+    delete from wms_person
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ken.wms.domain.Person" >
+    insert into wms_person (PERSON_ID, PERSON_NAME, PERSON_GENDER, 
+      PERSON_JOB, PERSON_TEL, PERSON_ADDRESS, 
+      SYSTEM_FLAG, REMARK0, REMARK1
+      )
+    values (#{personId,jdbcType=INTEGER}, #{personName,jdbcType=VARCHAR}, #{personGender,jdbcType=VARCHAR}, 
+      #{personJob,jdbcType=VARCHAR}, #{personTel,jdbcType=VARCHAR}, #{personAddress,jdbcType=VARCHAR}, 
+      #{systemFlag,jdbcType=INTEGER}, #{remark0,jdbcType=VARCHAR}, #{remark1,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ken.wms.domain.Person" >
+    insert into wms_person
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="personId != null" >
+        PERSON_ID,
+      </if>
+      <if test="personName != null" >
+        PERSON_NAME,
+      </if>
+      <if test="personGender != null" >
+        PERSON_GENDER,
+      </if>
+      <if test="personJob != null" >
+        PERSON_JOB,
+      </if>
+      <if test="personTel != null" >
+        PERSON_TEL,
+      </if>
+      <if test="personAddress != null" >
+        PERSON_ADDRESS,
+      </if>
+      <if test="systemFlag != null" >
+        SYSTEM_FLAG,
+      </if>
+      <if test="remark0 != null" >
+        REMARK0,
+      </if>
+      <if test="remark1 != null" >
+        REMARK1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="personId != null" >
+        #{personId,jdbcType=INTEGER},
+      </if>
+      <if test="personName != null" >
+        #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="personGender != null" >
+        #{personGender,jdbcType=VARCHAR},
+      </if>
+      <if test="personJob != null" >
+        #{personJob,jdbcType=VARCHAR},
+      </if>
+      <if test="personTel != null" >
+        #{personTel,jdbcType=VARCHAR},
+      </if>
+      <if test="personAddress != null" >
+        #{personAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="systemFlag != null" >
+        #{systemFlag,jdbcType=INTEGER},
+      </if>
+      <if test="remark0 != null" >
+        #{remark0,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null" >
+        #{remark1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ken.wms.domain.PersonExample" resultType="java.lang.Integer" >
+    select count(*) from wms_person
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update wms_person
+    <set >
+      <if test="record.personId != null" >
+        PERSON_ID = #{record.personId,jdbcType=INTEGER},
+      </if>
+      <if test="record.personName != null" >
+        PERSON_NAME = #{record.personName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personGender != null" >
+        PERSON_GENDER = #{record.personGender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personJob != null" >
+        PERSON_JOB = #{record.personJob,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personTel != null" >
+        PERSON_TEL = #{record.personTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personAddress != null" >
+        PERSON_ADDRESS = #{record.personAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.systemFlag != null" >
+        SYSTEM_FLAG = #{record.systemFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark0 != null" >
+        REMARK0 = #{record.remark0,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark1 != null" >
+        REMARK1 = #{record.remark1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update wms_person
+    set PERSON_ID = #{record.personId,jdbcType=INTEGER},
+      PERSON_NAME = #{record.personName,jdbcType=VARCHAR},
+      PERSON_GENDER = #{record.personGender,jdbcType=VARCHAR},
+      PERSON_JOB = #{record.personJob,jdbcType=VARCHAR},
+      PERSON_TEL = #{record.personTel,jdbcType=VARCHAR},
+      PERSON_ADDRESS = #{record.personAddress,jdbcType=VARCHAR},
+      SYSTEM_FLAG = #{record.systemFlag,jdbcType=INTEGER},
+      REMARK0 = #{record.remark0,jdbcType=VARCHAR},
+      REMARK1 = #{record.remark1,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ken.wms.domain.Person" >
+    update wms_person
+    <set >
+      <if test="personName != null" >
+        PERSON_NAME = #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="personGender != null" >
+        PERSON_GENDER = #{personGender,jdbcType=VARCHAR},
+      </if>
+      <if test="personJob != null" >
+        PERSON_JOB = #{personJob,jdbcType=VARCHAR},
+      </if>
+      <if test="personTel != null" >
+        PERSON_TEL = #{personTel,jdbcType=VARCHAR},
+      </if>
+      <if test="personAddress != null" >
+        PERSON_ADDRESS = #{personAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="systemFlag != null" >
+        SYSTEM_FLAG = #{systemFlag,jdbcType=INTEGER},
+      </if>
+      <if test="remark0 != null" >
+        REMARK0 = #{remark0,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null" >
+        REMARK1 = #{remark1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PERSON_ID = #{personId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ken.wms.domain.Person" >
+    update wms_person
+    set PERSON_NAME = #{personName,jdbcType=VARCHAR},
+      PERSON_GENDER = #{personGender,jdbcType=VARCHAR},
+      PERSON_JOB = #{personJob,jdbcType=VARCHAR},
+      PERSON_TEL = #{personTel,jdbcType=VARCHAR},
+      PERSON_ADDRESS = #{personAddress,jdbcType=VARCHAR},
+      SYSTEM_FLAG = #{systemFlag,jdbcType=INTEGER},
+      REMARK0 = #{remark0,jdbcType=VARCHAR},
+      REMARK1 = #{remark1,jdbcType=VARCHAR}
+    where PERSON_ID = #{personId,jdbcType=INTEGER}
+  </update>
+</mapper>

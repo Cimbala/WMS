@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ken.wms.dao.OrderDeliveryMapper" >
+  <resultMap id="BaseResultMap" type="com.ken.wms.domain.OrderDelivery" >
+    <id column="DELIVERY_ID" property="deliveryId" jdbcType="INTEGER" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="INTEGER" />
+    <result column="GOOD_ID" property="goodId" jdbcType="INTEGER" />
+    <result column="NUM" property="num" jdbcType="INTEGER" />
+    <result column="CUSTOMER_ADDR" property="customerAddr" jdbcType="VARCHAR" />
+    <result column="DELIVERY_TIME" property="deliveryTime" jdbcType="TIMESTAMP" />
+    <result column="REMARK0" property="remark0" jdbcType="VARCHAR" />
+    <result column="REMARK1" property="remark1" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    DELIVERY_ID, CUSTOMER_ID, GOOD_ID, NUM, CUSTOMER_ADDR, DELIVERY_TIME, REMARK0, REMARK1
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ken.wms.domain.OrderDeliveryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wms_order_delivery
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_order_delivery
+    where DELIVERY_ID = #{deliveryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from wms_order_delivery
+    where DELIVERY_ID = #{deliveryId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ken.wms.domain.OrderDeliveryExample" >
+    delete from wms_order_delivery
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ken.wms.domain.OrderDelivery" >
+    insert into wms_order_delivery (DELIVERY_ID, CUSTOMER_ID, GOOD_ID, 
+      NUM, CUSTOMER_ADDR, DELIVERY_TIME, 
+      REMARK0, REMARK1)
+    values (#{deliveryId,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{goodId,jdbcType=INTEGER}, 
+      #{num,jdbcType=INTEGER}, #{customerAddr,jdbcType=VARCHAR}, #{deliveryTime,jdbcType=TIMESTAMP}, 
+      #{remark0,jdbcType=VARCHAR}, #{remark1,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ken.wms.domain.OrderDelivery" >
+    insert into wms_order_delivery
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deliveryId != null" >
+        DELIVERY_ID,
+      </if>
+      <if test="customerId != null" >
+        CUSTOMER_ID,
+      </if>
+      <if test="goodId != null" >
+        GOOD_ID,
+      </if>
+      <if test="num != null" >
+        NUM,
+      </if>
+      <if test="customerAddr != null" >
+        CUSTOMER_ADDR,
+      </if>
+      <if test="deliveryTime != null" >
+        DELIVERY_TIME,
+      </if>
+      <if test="remark0 != null" >
+        REMARK0,
+      </if>
+      <if test="remark1 != null" >
+        REMARK1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deliveryId != null" >
+        #{deliveryId,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null" >
+        #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="customerAddr != null" >
+        #{customerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryTime != null" >
+        #{deliveryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark0 != null" >
+        #{remark0,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null" >
+        #{remark1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ken.wms.domain.OrderDeliveryExample" resultType="java.lang.Integer" >
+    select count(*) from wms_order_delivery
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update wms_order_delivery
+    <set >
+      <if test="record.deliveryId != null" >
+        DELIVERY_ID = #{record.deliveryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerId != null" >
+        CUSTOMER_ID = #{record.customerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodId != null" >
+        GOOD_ID = #{record.goodId,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null" >
+        NUM = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerAddr != null" >
+        CUSTOMER_ADDR = #{record.customerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryTime != null" >
+        DELIVERY_TIME = #{record.deliveryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark0 != null" >
+        REMARK0 = #{record.remark0,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark1 != null" >
+        REMARK1 = #{record.remark1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update wms_order_delivery
+    set DELIVERY_ID = #{record.deliveryId,jdbcType=INTEGER},
+      CUSTOMER_ID = #{record.customerId,jdbcType=INTEGER},
+      GOOD_ID = #{record.goodId,jdbcType=INTEGER},
+      NUM = #{record.num,jdbcType=INTEGER},
+      CUSTOMER_ADDR = #{record.customerAddr,jdbcType=VARCHAR},
+      DELIVERY_TIME = #{record.deliveryTime,jdbcType=TIMESTAMP},
+      REMARK0 = #{record.remark0,jdbcType=VARCHAR},
+      REMARK1 = #{record.remark1,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ken.wms.domain.OrderDelivery" >
+    update wms_order_delivery
+    <set >
+      <if test="customerId != null" >
+        CUSTOMER_ID = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null" >
+        GOOD_ID = #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        NUM = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="customerAddr != null" >
+        CUSTOMER_ADDR = #{customerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryTime != null" >
+        DELIVERY_TIME = #{deliveryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark0 != null" >
+        REMARK0 = #{remark0,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null" >
+        REMARK1 = #{remark1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DELIVERY_ID = #{deliveryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ken.wms.domain.OrderDelivery" >
+    update wms_order_delivery
+    set CUSTOMER_ID = #{customerId,jdbcType=INTEGER},
+      GOOD_ID = #{goodId,jdbcType=INTEGER},
+      NUM = #{num,jdbcType=INTEGER},
+      CUSTOMER_ADDR = #{customerAddr,jdbcType=VARCHAR},
+      DELIVERY_TIME = #{deliveryTime,jdbcType=TIMESTAMP},
+      REMARK0 = #{remark0,jdbcType=VARCHAR},
+      REMARK1 = #{remark1,jdbcType=VARCHAR}
+    where DELIVERY_ID = #{deliveryId,jdbcType=INTEGER}
+  </update>
+</mapper>
