@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ken.wms.dao.SaleRecordOprMapper" >
+
+    <resultMap id="resultMap" type="com.ken.wms.domain.vo.SaleRecordVo" >
+        <id column="SALE_ID" property="saleId" jdbcType="INTEGER" />
+        <id column="GOOD_ID" property="goodId" jdbcType="INTEGER" />
+        <result column="SALE_NUM" property="saleNum" jdbcType="INTEGER" />
+        <result column="PRICE" property="price" jdbcType="INTEGER" />
+        <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+        <result column="SALE_AMOUNT" property="saleAmount" jdbcType="INTEGER" />
+        <result column="SALE_DATE" property="saleDate" jdbcType="TIMESTAMP" />
+        <result column="REMARK0" property="remark0" jdbcType="VARCHAR" />
+        <result column="REMARK1" property="remark1" jdbcType="VARCHAR" />
+        <result column="GOOD_NAME" property="goodName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="unionSelect">
+        select
+          tm.*,
+          tg.GOOD_NAME
+        from wms_record_sale as tm
+        left join wms_goods as tg
+          on tg.GOOD_ID=tm.GOOD_ID
+    </sql>
+
+    <select id="selectByAll"
+            resultMap="resultMap"
+            resultType="com.ken.wms.domain.vo.SaleRecordVo">
+        <include refid="unionSelect"/>
+    </select>
+
+    <select id="selectByForm"
+            parameterType="com.ken.wms.domain.form.SaleRecordForm"
+            resultMap="resultMap"
+            resultType="com.ken.wms.domain.vo.SaleRecordVo">
+        <include refid="unionSelect"/>
+        <where>
+            <if test="saleId!=null and saleId != 0">
+                and tm.SALE_ID=#{saleId}
+            </if>
+            <if test="goodId!=null and goodId != 0">
+                and tm.GOOD_ID=#{goodId}
+            </if>
+            <if test="saleDateStr_start != null"> <!-- 大于等于 -->
+                and  tm.SALE_DATE &gt;= #{saleDateStr_start}
+            </if>
+            <if test="saleDateStr_end != null"> <!-- 小于等于 -->
+                and  tm.SALE_DATE &lt;= #{saleDateStr_end}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -5,7 +5,21 @@ $(function() {
 	passwordModifyInit();
 	signOut();
 	homePage();
+	parentMenuClick();
 });
+
+// 左侧父目录点击
+function parentMenuClick(){
+    $('.panel-default').click(function(){
+        var id=$(this).attr('id');
+        if(id!=null || id!=undefined || id!=""){
+            var no=id.substring(7,8);
+            var child="ajump"+no;
+            document.getElementById(child).click();
+            //console.info("click:"+no);
+        }
+    });
+}
 
 // 加载欢迎界面
 function welcomePageInit(){
