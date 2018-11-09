@@ -64,9 +64,10 @@ function signOut() {
 			dataType : "json",
 			contentType : "application/json",
 			success:function(response){
-				window.location.reload(true);
+				//window.location.reload(true);
+                window.location.href="/wms/login";
 			},error:function(response){
-				
+				console.error("sign out failed");
 			}
 		})
 	})

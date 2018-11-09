@@ -30,6 +30,16 @@ public class PageForwardHandler {
             return "mainPage";
     }
 
+    @RequestMapping("login1")
+    public String loginPageForward_1() {
+        // 判断但钱用户是否已经登陆
+        Subject currentSubject = SecurityUtils.getSubject();
+        if (!currentSubject.isAuthenticated())
+            return "login1";
+        else
+            return "mainPage";
+    }
+
     /**
      * 内部重定向到主页面
      *
