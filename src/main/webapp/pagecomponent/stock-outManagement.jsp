@@ -18,7 +18,7 @@
 		fetchStorage();
 		goodsAutocomplete();
 		customerAutocomplete();
-	})
+	});
 
 	function dataValidateInit(){
 		$('#stockout_form').bootstrapValidator({
@@ -225,6 +225,7 @@
 				$.each(response.rows,function(index,elem){
 					$('#repository_selector').append("<option value='" + elem.id + "'>" + elem.id +"号仓库</option>");
 				});
+                stockout_repository=$('#repository_selector  option:selected').val();//赋初值
 			},
 			error : function(response){
 				$('#repository_selector').append("<option value='-1'>加载失败</option>");

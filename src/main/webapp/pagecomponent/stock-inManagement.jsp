@@ -18,7 +18,7 @@
 		fetchStorage();
 		supplierAutocomplete();
 		goodsAutocomplete();
-	})
+	});
 
 	// 数据校验
 	function dataValidateInit(){
@@ -230,6 +230,7 @@
 				$.each(response.rows,function(index,elem){
 					$('#repository_selector').append("<option value='" + elem.id + "'>" + elem.id +"号仓库</option>");
 				});
+				stockin_repository=$('#repository_selector  option:selected').val();//赋初值
 			},
 			error : function(response){
 				$('#repository_selector').append("<option value='-1'>加载失败</option>");
@@ -288,8 +289,8 @@
 				repositoryID : stockin_repository,
 				supplierID : stockin_supplier,
 				goodsID : stockin_goods,
-				number : $('#stockin_input').val(),
-			}
+				number : $('#stockin_input').val()
+			};
 
 			$.ajax({
 				type : 'POST',
@@ -520,7 +521,7 @@
                         <form action="" class="form-inline">
                             <div class="form-group">
                                 <label for="" class="form-label">入库仓库：</label>
-                                <select name="" id="repository_selector" class="form-control">
+                                	<select name="" id="repository_selector" class="form-control">
                                 </select>
                             </div>
                         </form>

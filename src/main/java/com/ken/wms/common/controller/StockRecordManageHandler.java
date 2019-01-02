@@ -76,14 +76,14 @@ public class StockRecordManageHandler {
         Integer repositoryIDBelong = userInfo == null ? -1 : userInfo.getRepositoryBelong();
 
         // 设置非管理员请求的仓库ID
-        if (!currentUser.hasRole("systemAdmin")) {
-            if (repositoryIDBelong < 0) {
-                authorizeCheck = false;
-                responseContent.setResponseMsg("You are not authorized");
-            } else {
-                repositoryID = repositoryIDBelong;
-            }
-        }
+//        if (!currentUser.hasRole("systemAdmin")) {
+//            if (repositoryIDBelong < 0) {
+//                authorizeCheck = false;
+//                responseContent.setResponseMsg("You are not authorized");
+//            } else {
+//                repositoryID = repositoryIDBelong;
+//            }
+//        }
 
         if (authorizeCheck && argumentCheck) {
             if (stockRecordManageService.stockOutOperation(customerID, goodsID, repositoryID, number, personInCharge))
@@ -136,14 +136,14 @@ public class StockRecordManageHandler {
         Integer repositoryIDBelong = userInfo == null ? -1 : userInfo.getRepositoryBelong();
 
         // 设置非管理员请求的仓库ID
-        if (!currentUser.hasRole("systemAdmin")) {
-            if (repositoryIDBelong < 0) {
-                authorizeCheck = false;
-                responseContent.setResponseMsg("You are not authorized");
-            } else {
-                repositoryID = repositoryIDBelong;
-            }
-        }
+//        if (!currentUser.hasRole("systemAdmin")) {
+//            if (repositoryIDBelong < 0) {
+//                authorizeCheck = false;
+//                responseContent.setResponseMsg("You are not authorized");
+//            } else {
+//                repositoryID = repositoryIDBelong;
+//            }
+//        }
 
         // 执行 Service
         if (authorizeCheck && argumentCheck) {
