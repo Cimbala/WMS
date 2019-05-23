@@ -93,6 +93,7 @@
 		$(function() {
 			validatorInit();
 			refreshCheckCode();
+			resetBackground();
 		});
 
 		// 刷新图形验证码
@@ -103,13 +104,18 @@
 			})
 		}
 
+        //重设背景样式
+        function resetBackground(){
+            document.body.style.background='url(${pageContext.request.contextPath}/media/images/bg2.jpg)';
+        }
+
 		// 登陆信息加密模块
 		function infoEncrypt(userID, password, checkCode) {
 			var str1 = $.md5(password);
 			var str2 = $.md5(str1 + userID);
-            console.log(str2 );
+            //console.log(str2 );
 			var str3 = $.md5(str2 + checkCode.toUpperCase());
-            console.log(str3 );
+            //console.log(str3 );
 			return str3;
 		}
 

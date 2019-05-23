@@ -71,7 +71,7 @@ public class UserAuthorizingRealm extends AuthorizingRealm {
             String principal = usernamePasswordToken.getUsername();
 
             if (!StringUtils.isNumeric(principal))
-                throw new AuthenticationException();
+                throw new AuthenticationException("用户名必须是纯数字");
 
             Integer userID = Integer.valueOf(principal);
             UserInfoDTO userInfoDTO = userInfoService.getUserInfo(userID);

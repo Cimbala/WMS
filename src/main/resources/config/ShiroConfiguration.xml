@@ -102,7 +102,7 @@
     <!-- Shiro 的 Filter 配置 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/login"/>
+        <property name="loginUrl" value="/login1"/>
         <property name="filters">
             <util:map>
                 <entry key="roles" value-ref="anyOfRoles"/>

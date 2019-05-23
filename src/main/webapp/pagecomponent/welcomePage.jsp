@@ -9,6 +9,7 @@ $(function(){
 // 快捷方式
 function quickAccessInit(){
 	$('.shortcut').click(function(){
+	    debugger;
 		var title = $(this).find('.title').text();
 		var url = $('.menu_item:contains('+ title + ')').attr('name');
 		$('#panel').load(url);
@@ -23,12 +24,7 @@ function quickAccessInit(){
 	</ol>
 
 	<div class="panel-body">
-        <shiro:hasRole name="commonsAdmin">
-            <div class="col-md-8"  style="text-align: center;margin-left: 15%; ">
-                <img src="media/images/market.png"  height="50%" width="50%" />
-            </div>
-        </shiro:hasRole>
-        <shiro:hasRole name="systemAdmin">
+
             <div class="row" style="margin-top: 100px; margin-bottom: 100px">
                 <div class="col-md-1"></div>
                 <div class="col-md-10" style="text-align: center">
@@ -43,25 +39,25 @@ function quickAccessInit(){
                     </div>
                     <div class="col-md-4 col-sm-4">
                         <a href="javascript:void(0)" class="thumbnail shortcut"> <img
-                            src="media/icons/people_512.png" alt="人员管理"
+                            src="media/icons/people_512.png" alt="客户管理"
                             class="img-rounded link" style="width: 150px; height: 150px;" >
                             <div class="caption">
-                                <h3 class="title">人员管理</h3>
+                                <h3 class="title">客户信息管理</h3>
                             </div>
                         </a>
                     </div>
                     <div class="col-md-4 col-sm-4">
                         <a href="javascript:void(0)" class="thumbnail shortcut"> <img
-                            src="media/icons/stock_out-512.png" alt="配送订单"
+                            src="media/icons/stock_out-512.png" alt="货物出库"
                             class="img-rounded link" style="width: 150px; height: 150px;">
                             <div class="caption">
-                                <h3 class="title">配送订单</h3>
+                                <h3 class="title">货物出库</h3>
                             </div>
                         </a>
                     </div>
                 </div>
                 <div class="col-md-1"></div>
             </div>
-        </shiro:hasRole>
+
 	</div>
 </div>

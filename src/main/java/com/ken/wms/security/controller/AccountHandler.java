@@ -228,6 +228,8 @@ public class AccountHandler {
                 response.setHeader("Cache-Control", "no-cache");
                 response.setDateHeader("Expires", 0);
                 response.setContentType("image/png");
+
+                System.out.println("验证码："+checkCodeString);
             } catch (IOException e) {
                 log.error("fail to get the ServletOutputStream");
             }

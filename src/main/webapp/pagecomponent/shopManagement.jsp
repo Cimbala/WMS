@@ -4,14 +4,9 @@
 <script>
 	var search_type = "none";
 	var search_keyWord = "";
-    var search_keyWord2 = "";
 	var selectID;
-	var selectID2;
-    var search_start_date = null;
-    var search_end_date = null;
 
 	$(function() {
-	    datePickerInit();
 		optionAction();
 		searchAction();
 		listInit();
@@ -20,23 +15,7 @@
 		addAction();
 		editAction();
 		deleteAction();
-	});
-
-    // 日期选择器初始化
-    function datePickerInit(){
-        $('.form_date').datetimepicker({
-            format:'yyyy-mm-dd',
-            language : 'zh-CN',
-            endDate : new Date(),
-            weekStart : 1,
-            todayBtn : 1,
-            autoClose : 1,
-            todayHighlight : 1,
-            startView : 2,
-            forceParse : 0,
-            minView:2
-        });
-    }
+	})
 
 	// 下拉框選擇動作
 	function optionAction() {
@@ -44,32 +23,23 @@
 			var type = $(this).text();
 			$("#search_input").val("");
 			if (type == "所有") {
-                search_type = "searchAll";
 				$("#search_input").attr("readOnly", "true");
-                $("#search_input2").attr("readOnly", "true");
-                $("#search_start_date").attr("readOnly", "true");
-                $("#search_end_date").attr("readOnly", "true");
-
-                $("#search_input").attr("placeholder", type);
-                $("#search_input2").attr("placeholder", "");
-                $("#search_start_date").attr("placeholder", "");
-                $("#search_end_date").attr("placeholder", "");
-            } else if (type == "手动输入") {
-                search_type = "searchByParams";
+                search_type = "searchAll";
+			} else if (type == "门店编号") {
 				$("#search_input").removeAttr("readOnly");
-                $("#search_input2").removeAttr("readOnly");
-                $("#search_start_date").removeAttr("readOnly");
-                $("#search_end_date").removeAttr("readOnly");
-
-                $("#search_input").attr("placeholder", "流水编号");
-                $("#search_input2").attr("placeholder", "货物ID");
-                $("#search_start_date").attr("placeholder", "开始日期");
-                $("#search_end_date").attr("placeholder", "结束日期");
+                search_type = "searchBySID";
+			}else if (type == "门店名称") {
+                $("#search_input").removeAttr("readOnly");
+                search_type = "searchByNAME";
+            } else if (type == "负责人姓名") {
+				$("#search_input").removeAttr("readOnly");
+                search_type = "searchByPIC";
 			}else {
 				$("#search_input").removeAttr("readOnly");
 			}
 
 			$("#search_type").text(type);
+			$("#search_input").attr("placeholder", type);
 		})
 	}
 
@@ -77,9 +47,6 @@
 	function searchAction() {
 		$('#search_button').click(function() {
 			search_keyWord = $('#search_input').val();
-            search_keyWord2 = $('#search_input2').val();
-            search_start_date = $('#search_start_date').val();
-            search_end_date = $('#search_end_date').val();
 			tableRefresh();
 		})
 	}
@@ -90,11 +57,8 @@
 			limit : params.limit,
 			offset : params.offset,
 			searchType : search_type,
-			keyWord : search_keyWord,
-            keyWord2 : search_keyWord2,
-            startDate:search_start_date,
-            endDate:search_end_date
-		};
+			keyWord : search_keyWord
+		}
 		return temp;
 	}
 
@@ -105,40 +69,31 @@
 						{
 							columns : [
 									{
-										field : 'saleId',
-										title : '流水编号'
+										field : 'shopId',
+										title : '门店编号'
 									},
 									{
-										field : 'goodId',
-										title : '货物ID'
+										field : 'shopName',
+										title : '门店名称'
 									},
                                     {
-                                        field : 'saleNum',
-                                        title : '售出数量'
+                                        field : 'shopAddress',
+                                        title : '门店地址'
                                         //,visible : false
                                     },
 									{
-										field : 'price',
-										title : '单价'
+										field : 'picName',
+										title : '负责人名称'
 									},
                                     {
-                                        field : 'unit',
-                                        title : '单位'
+                                        field : 'picTel',
+                                        title : '负责人电话'
                                         //,visible : false
                                     },
 									{
-										field : 'saleAmount',
-										title : '总销售额'
+										field : 'shopTel',
+										title : '门店电话'
 									},
-                                    {
-                                        field : 'saleDate',
-                                        title : '记录时间',
-                                        formatter : function (value, row, index) {
-                                            var datestr=new Date(parseInt(value)).toLocaleString();
-                                            //console.info(datestr);
-                                            return datestr.substr(0,9);
-                                        }
-                                    },
 									{
 										field : 'operation',
 										title : '操作',
@@ -152,20 +107,19 @@
 											// 操作列中编辑按钮的动作
 											'click .edit' : function(e, value,
 													row, index) {
-												selectID = row.saleId;
-                                                selectID2=row.goodId;
+												selectID = row.shopId;
+                                                console.info('selectID:'+selectID);
 												rowEditOperation(row);
 											},
 											'click .delete' : function(e,
 													value, row, index) {
-												selectID = row.saleId;
-                                                selectID2=row.goodId;
+												selectID = row.shopId;
 												$('#deleteWarning_modal').modal(
 														'show');
 											}
 										}
 									} ],
-							url : 'saleRecordManage/getSaleRecordList',
+							url : 'shopManage/getShopList',
 							onLoadError:function(status){
 								handleAjaxError(status);
 							},
@@ -194,15 +148,15 @@
 
 		// load info
 		$('#form_edit').bootstrapValidator("resetForm", true);
-		$('#srid_edit').val(selectID);
-		$('#gid_edit').val(selectID2);
-		$('#snum_edit').val(row.saleNum);
-		$('#price_edit').val(row.price);
-		$('#unit_edit').val(row.unit);
-        $('#samount_edit').val(row.saleAmount);
+		$('#shopId_edit').val(selectID);
+		$('#shopName_edit').val(row.shopName);
+		$('#shopAddr_edit').val(row.shopAddress);
+		$('#picName_edit').val(row.picName);
+		$('#picTel_edit').val(row.picTel);
+        $('#shopTel_edit').val(row.shopTel);
 	}
 
-	// 添加模态框的数据校验
+	// 添加门店模态框数据校验
 	function bootstrapValidatorInit() {
 		$("#form_add,#form_edit").bootstrapValidator({
 			message : 'This is not valid',
@@ -213,61 +167,45 @@
 			},
 			excluded : [ ':disabled' ],
 			fields : {
-				srid : {
+				shopId : {
 					validators : {
 						notEmpty : {
-							message : '流水编号不能为空'
+							message : '门店编号不能为空'
 						},
                         regexp : {
                             regexp : '^\\d+$',
-                            message : '流水编号必须是纯数字'
+                            message : '门店编号必须是纯数字'
                         }
 					}
 				},
-				gid : {
+				shopName : {
 					validators : {
 						notEmpty : {
-							message : '货物ID不能为空'
-						},
-                        regexp : {
-                            regexp : '^\\d+$',
-                            message : '货物ID必须是纯数字'
-                        }
+							message : '门店名称不能为空'
+						}
 					}
 				},
-				snum : {
+				shopAddress : {
 					validators : {
 						notEmpty : {
-							message : '售出数量不能为空'
-						},
-                        regexp : {
-                            regexp : '^\\d+$',
-                            message : '售出数量必须是纯数字'
-                        }
+							message : '门店地址不能为空'
+						}
 					}
 				},
-				price : {
+				picName : {
 					validators : {
 						notEmpty : {
-							message : '销售单价不能为空'
-						},
-                        regexp : {
-                            regexp : '^\\d+$',
-                            message : '销售单价必须是纯数字'
-                        }
+							message : '负责人姓名不能为空'
+						}
 					}
 				},
-                samount : {
+                picTel : {
                     validators : {
                         notEmpty : {
-                            message : '总销售额不能为空'
-                        },
-                        regexp : {
-                            regexp : '^\\d+$',
-                            message : '总销售额必须是纯数字'
+                            message : '负责人电话不能为空'
                         }
                     }
-                }
+                },
 			}
 		})
 	}
@@ -284,18 +222,18 @@
 					};
 
 					var data = {
-						saleId : selectID,
-						goodId : selectID2,
-						saleNum : $('#snum_edit').val(),
-						price : $('#price_edit').val(),
-						unit : $('#unit_edit').val()
-                        //,saleAmount : $('#samount_edit').val()
+						shopId : selectID,
+						shopName : $('#shopName_edit').val(),
+						shopAddress : $('#shopAddr_edit').val(),
+						picName : $('#picName_edit').val(),
+						picTel : $('#picTel_edit').val(),
+                        shopTel : $('#shopTel_edit').val()
 					};
 
 					// ajax
 					$.ajax({
 						type : "POST",
-						url : 'saleRecordManage/updateSaleRecord',
+						url : 'shopManage/updateShop',
 						dataType : "json",
 						contentType : "application/json",
 						data : JSON.stringify(data),
@@ -306,10 +244,10 @@
 							var append = '';
 							if (response.result == "success") {
 								type = "success";
-								msg = "销售信息更新成功";
+								msg = "门店信息更新成功";
 							} else if (response.result == "error") {
 								type = "error";
-								msg = "销售信息更新失败"
+								msg = "门店信息更新失败"
 							}
 							showMsg(type, msg, append);
 							tableRefresh();
@@ -327,12 +265,11 @@
 	function deleteAction(){
 		$('#delete_confirm').click(function(){
 			var data = {
-				"sale_id" : selectID,
-                "good_id":selectID2
+				"shopId" : selectID
 			};
 			$.ajax({
 				type : "GET",
-				url : "saleRecordManage/deleteSaleRecord",
+				url : "shopManage/deleteShop",
 				dataType : "json",
 				contentType : "application/json",
 				data : data,
@@ -343,10 +280,10 @@
 					var append = '';
 					if(response.result == "success"){
 						type = "success";
-						msg = "销售信息删除成功";
+						msg = "门店信息删除成功";
 					}else{
 						type = "error";
-						msg = "销售信息删除失败";
+						msg = "门店信息删除失败";
 					}
 					showMsg(type, msg, append);
 					tableRefresh();
@@ -370,17 +307,17 @@
 
 		$('#add_modal_submit').click(function() {
 			var data = {
-                saleId : $('#srid').val(),
-                goodId : $('#gid').val(),
-                saleNum : $('#snum').val(),
-                price : $('#price').val(),
-                unit : $('#unit').val()
-                //,saleAmount : $('#samount').val(),
+                shopId : $('#shopId').val(),
+                shopName : $('#shopName').val(),
+                shopAddress : $('#shopAddress').val(),
+                picName : $('#picName').val(),
+                picTel : $('#picTel').val(),
+                shopTel : $('#shopTel').val(),
 			};
 
 			$.ajax({
 				type : "POST",
-				url : "saleRecordManage/addSaleRecord",
+				url : "shopManage/addShop",
 				dataType : "json",
 				contentType : "application/json",
 				data : JSON.stringify(data),
@@ -391,27 +328,25 @@
 					var append = '';
 					if (response.result == "success") {
 						type = "success";
-						msg = "销售信息添加成功";
+						msg = "门店信息添加成功";
 					} else if (response.result == "error") {
 						type = "error";
-						msg = "销售信息添加失败";
+						msg = "门店信息添加失败";
 					}
 					showMsg(type, msg, append);
 					tableRefresh();
 
 					// reset
-					$('#srid').val("");
-					$('#gid').val("");
-					//$('#samount').val("");
-					$('#snum').val("");
-                    $('#price').val("");
-                    $('#unit').val("");
-					$('#form_add').bootstrapValidator("resetForm", true);
+					$('#shopId').val("");
+					$('#shopName').val("");
+					$('#shopAddress').val("");
+                    $('#picName').val("");
+                    $('#picTel').val("");
+					$('#shopTel').bootstrapValidator("resetForm", true);
 				},
 				error : function(xhr, textStatus, errorThrown) {
 					$('#add_modal').modal("hide");
 					// handle error
-                    console.error("ajax进入error："+textStatus);
 					handleAjaxError(xhr.status);
 				}
 			})
@@ -421,7 +356,7 @@
 </script>
 <div class="panel panel-default">
 	<ol class="breadcrumb">
-		<li>销售流水信息管理</li>
+		<li>门店信息管理</li>
 	</ol>
 	<div class="panel-body">
 		<div class="row">
@@ -432,7 +367,9 @@
 						<span id="search_type">查询方式</span> <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="javascript:void(0)" class="dropOption">手动输入</a></li>
+						<li><a href="javascript:void(0)" class="dropOption">门店编号</a></li>
+						<li><a href="javascript:void(0)" class="dropOption">门店名称</a></li>
+						<li><a href="javascript:void(0)" class="dropOption">负责人姓名</a></li>
 						<li><a href="javascript:void(0)" class="dropOption">所有</a></li>
 					</ul>
 				</div>
@@ -441,12 +378,8 @@
 				<div>
 					<div class="col-md-3 col-sm-4">
 						<input id="search_input" type="text" class="form-control"
-							placeholder="流水编号">
+							placeholder="门店编号">
 					</div>
-                    <div class="col-md-3 col-sm-4">
-                        <input id="search_input2" type="text" class="form-control"
-                               placeholder="货物ID">
-                    </div>
 					<div class="col-md-2 col-sm-3">
 						<button id="search_button" class="btn btn-success">
 							<span class="glyphicon glyphicon-search"></span> <span>查询</span>
@@ -455,21 +388,11 @@
 				</div>
 			</div>
 		</div>
-        <div class="row" style="margin-top:20px">
-            <div class="col-md-6">
-                <form action="" class="form-inline">
-                    <label class="form-label">日期范围：</label>
-                    <input class="form_date form-control" value="" id="search_start_date" name="" placeholder="开始日期">
-                    <label class="form-label">&nbsp;&nbsp;-&nbsp;&nbsp;</label>
-                    <input class="form_date form-control" value="" id="search_end_date" name="" placeholder="结束日期">
-                </form>
-            </div>
-        </div>
 
 		<div class="row" style="margin-top: 25px">
 			<div class="col-md-5">
 				<button class="btn btn-sm btn-default" id="add_btn">
-					<span class="glyphicon glyphicon-plus"></span> <span>添加销售流水信息</span>
+					<span class="glyphicon glyphicon-plus"></span> <span>添加门店信息</span>
 				</button>
 			</div>
 			<div class="col-md-5"></div>
@@ -492,7 +415,7 @@
 			<div class="modal-header">
 				<button class="close" type="button" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<h4 class="modal-title">新增销售流水信息</h4>
+				<h4 class="modal-title">新增门店信息</h4>
 			</div>
 			<div class="modal-body">
 				<!-- 模态框的内容 -->
@@ -502,53 +425,53 @@
 						<form class="form-horizontal" role="form" id="form_add"
 							style="margin-top: 25px">
 							<div class="form-group">
-								<label for="" class="control-label col-md-4 col-sm-4"> <span>流水编号：</span>
+								<label for="" class="control-label col-md-4 col-sm-4"> <span>门店编号：</span>
 								</label>
 								<div class="col-md-8 col-sm-8">
-									<input type="text" class="form-control" id="srid"
-										name="srid" placeholder="流水编号">
+									<input type="text" class="form-control" id="shopId"
+										name="shopId" placeholder="门店编号">
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="" class="control-label col-md-4 col-sm-4"> <span>货物ID：</span>
+								<label for="" class="control-label col-md-4 col-sm-4"> <span>门店名称：</span>
 								</label>
 								<div class="col-md-8 col-sm-8">
-									<input type="text" class="form-control" id="gid"
-										name="gid" placeholder="货物ID">
+									<input type="text" class="form-control" id="shopName"
+										name="shopName" placeholder="门店名称">
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="" class="control-label col-md-4 col-sm-4"> <span>售出数量：</span>
+								<label for="" class="control-label col-md-4 col-sm-4"> <span>门店地址：</span>
 								</label>
 								<div class="col-md-8 col-sm-8">
-									<input type="text" class="form-control" id="snum"
-										name="snum" placeholder="售出数量">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="" class="control-label col-md-4 col-sm-4"> <span>销售单价：</span>
-								</label>
-								<div class="col-md-8 col-sm-8">
-									<input type="text" class="form-control" id="price"
-										name="price" placeholder="销售单价">
+									<input type="text" class="form-control" id="shopAddress"
+										name="shopAddress" placeholder="门店地址">
 								</div>
 							</div>
                             <div class="form-group">
-                                <label for="" class="control-label col-md-4 col-sm-4"> <span>物品单位：</span>
+                                <label for="" class="control-label col-md-4 col-sm-4"> <span>负责人姓名：</span>
                                 </label>
                                 <div class="col-md-8 col-sm-8">
-                                    <input type="text" class="form-control" id="unit"
-                                           name="unit" placeholder="物品单位">
+                                    <input type="text" class="form-control" id="picName"
+                                           name="picName" placeholder="负责人姓名">
                                 </div>
                             </div>
-                            <%--<div class="form-group">--%>
-                                <%--<label for="" class="control-label col-md-4 col-sm-4"> <span>总销售额：</span>--%>
-                                <%--</label>--%>
-                                <%--<div class="col-md-8 col-sm-8">--%>
-                                    <%--<input type="text" class="form-control" id="paddr"--%>
-                                           <%--name="samount" placeholder="总销售额">--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-4 col-sm-4"> <span>负责人电话：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" id="picTel"
+                                           name="picTel" placeholder="负责人电话">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-4 col-sm-4"> <span>门店电话：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" id="shopTel"
+                                           name="shopTel" placeholder="门店电话">
+                                </div>
+                            </div>
 						</form>
 					</div>
 					<div class="col-md-1 col-sm-1"></div>
@@ -574,7 +497,7 @@
 			<div class="modal-header">
 				<button class="close" type="button" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<h4 class="modal-title">警告</h4>
+				<h4 class="modal-title" id="myModalLabel">警告</h4>
 			</div>
 			<div class="modal-body">
 				<div class="row">
@@ -583,7 +506,7 @@
 							style="width: 70px; height: 70px; margin-top: 20px;">
 					</div>
 					<div class="col-md-8 col-sm-8">
-						<h3>是否确认删除该条销售流水信息</h3>
+						<h3>是否确认删除该条门店信息</h3>
 					</div>
 				</div>
 			</div>
@@ -608,7 +531,7 @@
 			<div class="modal-header">
 				<button class="close" type="button" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">编辑销售信息</h4>
+				<h4 class="modal-title" id="myModalLabel">编辑门店信息</h4>
 			</div>
 			<div class="modal-body">
 				<!-- 模态框的内容 -->
@@ -618,58 +541,57 @@
 						<form class="form-horizontal" role="form" id="form_edit"
 							style="margin-top: 25px">
 							<div class="form-group">
-								<label for="" class="control-label col-md-4 col-sm-4"> <span>流水编号：</span>
+								<label for="" class="control-label col-md-4 col-sm-4"> <span>门店编号：</span>
 								</label>
 								<div class="col-md-8 col-sm-8">
-									<input type="text" class="form-control" id="srid_edit"
-										name="srid" readonly="readonly">
+									<input type="text" class="form-control" id="shopId_edit"
+										name="shopId" readonly="readonly">
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="" class="control-label col-md-4 col-sm-4"> <span>货物ID：</span>
+								<label for="" class="control-label col-md-4 col-sm-4"> <span>门店名称：</span>
+								</label>
+								<div class="col-md-8 col-sm-8">
+									<input type="text" class="form-control" id="shopName_edit"
+										   name="shopName" placeholder="门店名称">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="" class="control-label col-md-4 col-sm-4"> <span>门店地址：</span>
 								</label>
 								<div class="col-md-8 col-sm-8">
 									<input type="text" class="form-control"
-										id="gid_edit" name="gid" readonly="readonly"
-										placeholder="货物ID">
+										id="shopAddr_edit" name="shopAddress"
+										placeholder="门店地址">
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="" class="control-label col-md-4 col-sm-4"> <span>售出数量：</span>
+								<label for="" class="control-label col-md-4 col-sm-4"> <span>负责人姓名：</span>
 								</label>
 								<div class="col-md-8 col-sm-8">
+									<input type="text" class="form-control"
+										id="picName_edit" name="picName"
+										placeholder="负责人姓名">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="" class="control-label col-md-4 col-sm-4"> <span>负责人电话：</span>
+								</label>
+								<div class="col-md-8 col-sm-8">
+									<input type="text" class="form-control"
+										id="picTel_edit" name="picTel"
+										placeholder="负责人电话">
+								</div>
+							</div>
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-4 col-sm-4"> <span>门店电话：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
                                     <input type="text" class="form-control"
-                                           id="snum_edit" name="snum"
-                                           placeholder="售出数量">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="" class="control-label col-md-4 col-sm-4"> <span>销售单价：</span>
-								</label>
-								<div class="col-md-8 col-sm-8">
-									<input type="text" class="form-control"
-										id="price_edit" name="price"
-										placeholder="销售单价">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="" class="control-label col-md-4 col-sm-4"> <span>物品单位：</span>
-								</label>
-								<div class="col-md-8 col-sm-8">
-									<input type="text" class="form-control"
-										id="unit_edit" name="unit"
-										placeholder="物品单位">
-								</div>
-							</div>
-                            <%--<div class="form-group">--%>
-                                <%--<label for="" class="control-label col-md-4 col-sm-4"> <span>总销售额：</span>--%>
-                                <%--</label>--%>
-                                <%--<div class="col-md-8 col-sm-8">--%>
-                                    <%--<input type="text" class="form-control"--%>
-                                           <%--id="samount_edit" name="samount"--%>
-                                           <%--placeholder="总销售额">--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
+                                           id="shopTel_edit" name="shopTel"
+                                           placeholder="门店电话">
+                                </div>
+                            </div>
 						</form>
 					</div>
 					<div class="col-md-1 col-sm-1"></div>

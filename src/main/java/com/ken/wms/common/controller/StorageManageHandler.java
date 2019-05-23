@@ -161,12 +161,17 @@ public class StorageManageHandler {
         HttpSession session = request.getSession();
         UserInfoDTO userInfo = (UserInfoDTO) session.getAttribute("userInfo");
         Integer repositoryID = userInfo.getRepositoryBelong();
-        if (repositoryID > 0) {
-            Map<String, Object> queryResult = query(searchType, keyword, repositoryID.toString(), offset, limit);
-            if (queryResult != null) {
-                rows = (List<Storage>) queryResult.get("data");
-                total = (long) queryResult.get("total");
-            }
+//        if (repositoryID > 0) {
+//            Map<String, Object> queryResult = query(searchType, keyword, repositoryID.toString(), offset, limit);
+//            if (queryResult != null) {
+//                rows = (List<Storage>) queryResult.get("data");
+//                total = (long) queryResult.get("total");
+//            }
+//        }
+        Map<String, Object> queryResult = query(searchType, keyword, repositoryID.toString(), offset, limit);
+        if (queryResult != null) {
+            rows = (List<Storage>) queryResult.get("data");
+            total = (long) queryResult.get("total");
         }
 
         if (rows == null)
